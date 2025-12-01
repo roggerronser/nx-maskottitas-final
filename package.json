@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "migrate": "dotenv -e .env -- npx prisma migrate dev --name init"
+    "migrate": "dotenv -e .env -- npx prisma migrate dev --name init",
+    "build": "npx nx build frontend"
   },
   "private": true,
   "dependencies": {
