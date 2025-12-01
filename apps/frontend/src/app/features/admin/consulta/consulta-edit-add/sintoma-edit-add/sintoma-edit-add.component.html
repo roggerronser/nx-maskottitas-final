@@ -1,0 +1,18 @@
+<h2 mat-dialog-title>
+    {{ modoEditar ? 'Editar Síntoma' : 'Agregar Nuevo Síntoma' }}
+  </h2>
+  
+  <form [formGroup]="form" class="form-container">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Nombre del síntoma</mat-label>
+      <input matInput formControlName="sintoma" placeholder="Ejemplo: Dolor abdominal" />
+    </mat-form-field>
+  
+    <div class="actions">
+      <button mat-raised-button color="primary" (click)="guardar()" [disabled]="form.invalid">
+        {{ modoEditar ? 'Actualizar' : 'Guardar' }}
+      </button>
+      <button mat-raised-button type="button" (click)="cancelar()">Cancelar</button>
+    </div>
+  </form>
+  

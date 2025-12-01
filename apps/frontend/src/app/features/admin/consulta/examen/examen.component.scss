@@ -1,0 +1,81 @@
+.examen-container {
+  padding: 1rem;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: .5rem;
+  margin-bottom: 1rem;
+}
+
+.examen-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+  gap: 1rem;
+}
+
+.examen-card {
+  border-radius: 12px;
+  padding: .5rem;
+
+  mat-card-header {
+    background-color: #f3f3f3;
+    border-radius: 12px 12px 0 0;
+  }
+
+  mat-card-content {
+    padding-top: .5rem;
+  }
+}
+
+.pdf-section {
+  margin-top: .5rem;
+
+  h4 {
+    display: flex;
+    align-items: center;
+    gap: .4rem;
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: .3rem;
+  }
+
+  .pdf-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #fafafa;
+    border-radius: 8px;
+    padding: .4rem .6rem;
+    margin-bottom: .4rem;
+
+    .pdf-info {
+      display: flex;
+      align-items: center;
+      gap: .4rem;
+    }
+  }
+
+  .add-pdf {
+    margin-top: .5rem;
+    text-align: right;
+  }
+
+  .no-pdf {
+    display: flex;
+    align-items: center;
+    gap: .4rem;
+    font-size: .9rem;
+    color: #777;
+  }
+}
+
+.no-data {
+  text-align: center;
+  color: #888;
+  font-style: italic;
+  margin-top: 1.5rem;
+}

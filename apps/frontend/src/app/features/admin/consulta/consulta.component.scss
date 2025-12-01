@@ -1,0 +1,162 @@
+.consulta-container {
+  padding: 16px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+
+  .actions {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    width: 100%; 
+  }
+
+  .search-box {
+    flex: 1;              
+    min-width: 260px;     
+  }
+
+  button[mat-raised-button] {
+    white-space: nowrap;   
+  }
+}
+
+.tabla-container {
+  display: block;
+}
+
+.card-container {
+  display: none;
+}
+
+.data-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 8px;
+}
+
+.subcomponents-wrapper {
+  display: flex;
+  gap: 16px;
+  margin-top: 16px;
+  justify-content: space-between;
+}
+
+.examen-wrapper,
+.resultado-wrapper {
+  flex: 1;
+  min-width: 45%;
+}
+
+/* 🌐 Responsivo */
+@media (max-width: 768px) {
+  .tabla-container {
+    display: none;
+  }
+
+  .card-container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .consulta-card {
+    background-color: #fafafa;
+    border-radius: 12px;
+    padding: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+  }
+
+  .consulta-card:hover {
+    transform: translateY(-2px);
+  }
+
+  .card-header {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .card-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-top: 8px;
+  }
+
+  .card-expanded {
+    margin-top: 12px;
+    border-top: 1px solid #ddd;
+    padding-top: 12px;
+  }
+
+  .subcomponents-wrapper {
+    flex-direction: column;
+    gap: 12px;
+  }
+}
+.expanded-wrapper {
+  padding: 8px 0;
+}
+
+.expanded-content {
+  background: #f7f7f7;
+  padding: 10px 14px !important;
+  border-radius: 10px;
+  margin-top: 10px;
+  font-size: 15px !important;
+  line-height: 1.2;
+}
+
+.expanded-content .data-grid p {
+  margin: 0;
+  font-size: 15px !important;
+}
+
+/* GRID más compacto */
+.expanded-content .data-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 6px 12px;
+}
+
+.subcomponents-wrapper {
+  margin-top: 12px !important;
+  gap: 12px !important;
+}
+
+.subcomponents-wrapper app-examen,
+.subcomponents-wrapper app-resultado {
+  font-size: 15px !important;
+}
+
+@media (max-width: 768px) {
+
+  .card-expanded {
+    background: #f7f7f7;
+    padding: 10px 12px !important;
+    border-radius: 10px;
+    font-size: 15px !important;
+    line-height: 1.25;
+  }
+
+  .card-expanded .data-grid {
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 4px 10px !important;
+  }
+
+  .card-expanded p {
+    margin: 0 !important;
+    font-size: 15px !important;
+  }
+
+  .card-expanded .subcomponents-wrapper {
+    margin-top: 10px !important;
+    gap: 10px !important;
+  }
+}

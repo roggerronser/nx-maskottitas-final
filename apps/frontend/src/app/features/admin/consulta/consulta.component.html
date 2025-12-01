@@ -1,0 +1,206 @@
+<div class="consulta-container">
+
+  <!-- ENCABEZADO -->
+  <div class="header">
+    <div class="actions">
+
+      <mat-form-field appearance="outline" class="search-box">
+        <mat-label>Buscar consulta</mat-label>
+        <input
+          matInput
+          [ngModel]="filtro()"
+          (ngModelChange)="filtro.set($event)"
+          placeholder="Paciente o anamnesis"
+        />
+        <button mat-icon-button matSuffix>
+          <mat-icon>search</mat-icon>
+        </button>
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" (click)="abrirFormulario()">
+        <mat-icon>add</mat-icon>
+        Agregar
+      </button>
+
+    </div>
+  </div>
+
+  <!-- ======================================== -->
+  <!-- TABLA DESKTOP (VISIBLE SOLO > 768px) -->
+  <!-- ======================================== -->
+  <div class="tabla-container desktop-only">
+    <table
+      mat-table
+      [dataSource]="consultasFiltradas()"
+      multiTemplateDataRows
+      class="mat-elevation-z8"
+    >
+
+      <!-- Paciente -->
+      <ng-container matColumnDef="paciente">
+        <th mat-header-cell *matHeaderCellDef>Paciente</th>
+        <td mat-cell *matCellDef="let c">
+          {{ pacienteNombre(c.id_paciente) }}
+        </td>
+      </ng-container>
+
+      <!-- Cliente -->
+      <ng-container matColumnDef="cliente">
+        <th mat-header-cell *matHeaderCellDef>Cliente</th>
+        <td mat-cell *matCellDef="let c">
+          {{ clienteNombreTelefono(c.id_paciente) }}
+        </td>
+      </ng-container>
+
+      <!-- Fecha -->
+      <ng-container matColumnDef="fecha">
+        <th mat-header-cell *matHeaderCellDef>Fecha</th>
+        <td mat-cell *matCellDef="let c">
+          {{ formatFecha(c.fecha_consulta) }}
+        </td>
+      </ng-container>
+
+      <!-- Estado -->
+      <ng-container matColumnDef="estado">
+        <th mat-header-cell *matHeaderCellDef>Estado</th>
+        <td mat-cell *matCellDef="let c">
+          <mat-checkbox
+            [checked]="c.estado_consulta === 1"
+            (change)="toggleEstado(c)"
+          >
+            {{ c.estado_consulta === 1 ? 'Atendida' : 'Pendiente' }}
+          </mat-checkbox>
+        </td>
+      </ng-container>
+
+      <!-- Acciones -->
+      <ng-container matColumnDef="acciones">
+        <th mat-header-cell *matHeaderCellDef>Acciones</th>
+        <td mat-cell *matCellDef="let c">
+
+          <button mat-icon-button color="accent" (click)="editarConsulta(c)">
+            <mat-icon>edit</mat-icon>
+          </button>
+
+          <button mat-icon-button color="warn" (click)="eliminarConsulta(c.id_consulta!)">
+            <mat-icon>delete</mat-icon>
+          </button>
+
+          <button mat-icon-button (click)="toggleExpand(c)">
+            <mat-icon>
+              {{ isExpanded(c) ? 'keyboard_arrow_up' : 'keyboard_arrow_down' }}
+            </mat-icon>
+          </button>
+
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+
+      <tr
+        mat-row
+        *matRowDef="let row; columns: columnsToDisplay; trackBy: trackByConsulta"
+      ></tr>
+
+      <!-- DETALLE EXPANDIDO -->
+      <ng-container matColumnDef="expandedDetail">
+        <td mat-cell *matCellDef="let c" [attr.colspan]="columnsToDisplay.length">
+
+          <div *ngIf="isExpanded(c)" class="expanded-wrapper">
+
+            <div class="expanded-content">
+              <div class="data-grid">
+
+                <p><strong>Edad:</strong> {{ c.edad }}</p>
+                <p><strong>Temperatura:</strong> {{ c.temperatura }} °C</p>
+                <p><strong>FC:</strong> {{ c.fc }}</p>
+                <p><strong>FR:</strong> {{ c.fr }}</p>
+                <p><strong>Hidratación:</strong> {{ c.hidratacion }}</p>
+                <p><strong>Mucosas:</strong> {{ c.mucosas }}</p>
+                <p><strong>SpO₂:</strong> {{ c.spo2 }}</p>
+                <p><strong>Glucosa:</strong> {{ c.glucosa }}</p>
+                <p><strong>Presión:</strong> {{ c.presion_arterial }}</p>
+                <p><strong>Otros:</strong> {{ c.otros }}</p>
+                <p><strong>Síntomas:</strong> {{ sintomaNombre(c.id_sintoma) }}</p>
+                <p><strong>Anamnesis:</strong> {{ c.anamnesis }}</p>
+
+              </div>
+            </div>
+
+            <div class="subcomponents-wrapper">
+              <app-examen [idConsulta]="c.id_consulta"></app-examen>
+              <app-resultado [idConsulta]="c.id_consulta"></app-resultado>
+            </div>
+
+          </div>
+
+        </td>
+      </ng-container>
+
+      <tr
+        mat-row
+        *matRowDef="let row; columns: ['expandedDetail']; trackBy: trackByConsulta"
+      ></tr>
+
+    </table>
+  </div>
+
+  <!-- ======================================== -->
+  <!-- TARJETAS MÓVILES (VISIBLE SOLO <= 768px) -->
+  <!-- ======================================== -->
+  <div class="card-container mobile-only">
+
+    <div class="consulta-card" *ngFor="let c of consultasFiltradas(); trackBy: trackByConsulta">
+
+      <div class="card-header">
+        <h3>{{ pacienteNombre(c.id_paciente) }}</h3>
+
+        <p><strong>Cliente:</strong> {{ clienteNombreTelefono(c.id_paciente) }}</p>
+        <p><strong>Fecha:</strong> {{ formatFecha(c.fecha_consulta) }}</p>
+        <p><strong>Estado:</strong> {{ c.estado_consulta === 1 ? 'Atendida' : 'Pendiente' }}</p>
+
+        <div class="card-actions">
+
+          <button mat-icon-button color="accent" (click)="editarConsulta(c)">
+            <mat-icon>edit</mat-icon>
+          </button>
+
+          <button mat-icon-button color="warn" (click)="eliminarConsulta(c.id_consulta!)">
+            <mat-icon>delete</mat-icon>
+          </button>
+
+          <button mat-icon-button (click)="toggleExpand(c)">
+            <mat-icon>
+              {{ isExpanded(c) ? 'keyboard_arrow_up' : 'keyboard_arrow_down' }}
+            </mat-icon>
+          </button>
+
+        </div>
+      </div>
+
+      <!-- EXPANDIDO EN MÓVIL -->
+      <div class="card-expanded" *ngIf="isExpanded(c)">
+        
+        <div class="data-grid">
+          <p><strong>Edad:</strong> {{ c.edad }}</p>
+          <p><strong>Temperatura:</strong> {{ c.temperatura }}</p>
+          <p><strong>FC:</strong> {{ c.fc }}</p>
+          <p><strong>FR:</strong> {{ c.fr }}</p>
+          <p><strong>Mucosas:</strong> {{ c.mucosas }}</p>
+          <p><strong>Glucosa:</strong> {{ c.glucosa }}</p>
+          <p><strong>Presión:</strong> {{ c.presion_arterial }}</p>
+          <p><strong>Síntomas:</strong> {{ sintomaNombre(c.id_sintoma) }}</p>
+        </div>
+
+        <div class="subcomponents-wrapper">
+          <app-examen [idConsulta]="c.id_consulta ?? 0"></app-examen>
+          <app-resultado [idConsulta]="c.id_consulta ?? 0"></app-resultado>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

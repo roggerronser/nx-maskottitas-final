@@ -1,0 +1,71 @@
+<div class="container">
+  <h2 mat-dialog-title class="titulo">
+    {{ modoEditar ? 'Editar Paciente' : 'Nuevo Paciente' }}
+  </h2>
+
+  <div class="scroll-area">
+    <form [formGroup]="pacienteForm" class="form-container">
+      
+      <!-- DUEÑO -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Dueño (Cliente)</mat-label>
+        <mat-select formControlName="id_cliente">
+          <mat-option *ngFor="let c of clientes" [value]="c.id_cliente">
+            {{ c.nombres }} {{ c.apellidos }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <!-- NOMBRE DEL PACIENTE -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Nombre del Paciente</mat-label>
+        <input matInput formControlName="paciente" placeholder="Ej. Max, Luna, Tom" />
+      </mat-form-field>
+
+      <!-- ESPECIE -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Especie</mat-label>
+        <input matInput formControlName="especie" placeholder="Ej. Perro, Gato" />
+      </mat-form-field>
+
+      <!-- RAZA -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Raza</mat-label>
+        <input matInput formControlName="raza" placeholder="Ej. Labrador, Siamés" />
+      </mat-form-field>
+
+      <!-- SEXO -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Sexo</mat-label>
+        <mat-select formControlName="sexo">
+          <mat-option value="Macho">Macho</mat-option>
+          <mat-option value="Hembra">Hembra</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <!-- BOTONES -->
+      <div class="actions">
+        <button
+          mat-stroked-button
+          color="warn"
+          type="button"
+          (click)="cancelar()"
+          class="btn-cancelar"
+        >
+          Cancelar
+        </button>
+
+        <button
+          mat-raised-button
+          color="primary"
+          type="button"
+          (click)="guardar()"
+          class="btn-crear"
+        >
+          {{ modoEditar ? 'Guardar Cambios' : 'Crear' }}
+        </button>
+      </div>
+
+    </form>
+  </div>
+</div>

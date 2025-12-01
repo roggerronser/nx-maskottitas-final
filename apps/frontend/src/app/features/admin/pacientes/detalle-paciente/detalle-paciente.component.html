@@ -1,0 +1,38 @@
+<div class="detalle-paciente" *ngIf="paciente">
+  <h2 class="titulo">🐾 Detalle del Paciente</h2>
+
+  <div class="info-container">
+    <div class="info-item">
+      <strong>Nombre:</strong> <span>{{ paciente.paciente }}</span>
+    </div>
+    <div class="info-item">
+      <strong>Especie:</strong> <span>{{ paciente.especie }}</span>
+    </div>
+    <div class="info-item">
+      <strong>Raza:</strong> <span>{{ paciente.raza }}</span>
+    </div>
+    <div class="info-item">
+      <strong>Sexo:</strong> <span>{{ paciente.sexo }}</span>
+    </div>
+    <div class="info-item">
+      <strong>Cliente:</strong>
+      <span>{{ cliente?.nombres }} {{ cliente?.apellidos }}</span>
+    </div>
+  </div>
+
+  <mat-tab-group animationDuration="300ms">
+
+    <mat-tab label="💉 Vacunas">
+      <div class="seccion">
+        <app-vacuna [vacunasExternas]="vacunas"></app-vacuna>
+      </div>
+    </mat-tab>
+
+    <mat-tab label="🩺 Consultas">
+      <div class="seccion">
+        <app-consulta [consultasExternas]="consultas"></app-consulta>
+      </div>
+    </mat-tab>
+
+  </mat-tab-group>
+</div>

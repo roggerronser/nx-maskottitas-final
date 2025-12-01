@@ -1,0 +1,52 @@
+<div class="inicio-container">
+  <h1>🐾 Recordatorio de Vacunas</h1>
+  <p>Consulta las vacunas próximas o vencidas</p>
+
+  <mat-tab-group mat-stretch-tabs dynamicHeight>
+    <!-- 🟡 TAB - Próximas por vencer -->
+    <mat-tab label=" Próximas por vencer">
+      <div class="cards-grid" *ngIf="vacunasProximas().length > 0; else noProximas">
+        <mat-card class="card proxima-card" *ngFor="let v of vacunasProximas()">
+          <mat-card-header>
+            <mat-icon>vaccines</mat-icon>
+            <mat-card-title>{{ v.aplicacion_vacuna }}</mat-card-title>
+            <mat-card-subtitle>{{ getPacienteNombre(v.id_paciente) }}</mat-card-subtitle>
+          </mat-card-header>
+
+          <mat-card-content>
+            <p><strong>Cliente:</strong> {{ getClienteNombre(v.id_paciente) }}</p>
+            <p><strong>Fecha aplicación:</strong> {{ v.fecha_vacuna | date: 'dd/MM/yyyy' }}</p>
+            <p><strong>Próxima vacuna:</strong> {{ v.proxima_vacuna | date: 'dd/MM/yyyy' }}</p>
+          </mat-card-content>
+        </mat-card>
+      </div>
+
+      <ng-template #noProximas>
+        <p class="sin-vacunas"> No hay vacunas próximas a vencer.</p>
+      </ng-template>
+    </mat-tab>
+
+    <mat-tab label="Vencidas">
+      <div class="cards-grid" *ngIf="vacunasVencidas().length > 0; else noVencidas">
+        <mat-card class="card vencida-card" *ngFor="let v of vacunasVencidas()">
+          <mat-card-header>
+            <mat-icon color="warn">error_outline</mat-icon>
+            <mat-card-title>{{ v.aplicacion_vacuna }}</mat-card-title>
+            <mat-card-subtitle>{{ getPacienteNombre(v.id_paciente) }}</mat-card-subtitle>
+          </mat-card-header>
+
+          <mat-card-content>
+            <p><strong>Cliente:</strong> {{ getClienteNombre(v.id_paciente) }}</p>
+            <p><strong>Fecha aplicación:</strong> {{ v.fecha_vacuna | date: 'dd/MM/yyyy' }}</p>
+            <p><strong>Próxima vacuna:</strong> {{ v.proxima_vacuna | date: 'dd/MM/yyyy' }}</p>
+            <p class="estado-vencida"> Vacuna vencida</p>
+          </mat-card-content>
+        </mat-card>
+      </div>
+
+      <ng-template #noVencidas>
+        <p class="sin-vacunas"> No hay vacunas vencidas.</p>
+      </ng-template>
+    </mat-tab>
+  </mat-tab-group>
+</div>

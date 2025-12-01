@@ -1,0 +1,103 @@
+:host {
+  display: block;
+}
+
+/* CONTENEDOR PRINCIPAL */
+.resultado-container {
+  padding: clamp(8px, 2vw, 20px);
+  background: #ffffff;
+  border-radius: 14px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+}
+
+/* HEADER */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+
+  h2 {
+    margin: 0;
+    color: #000000;
+    font-size: clamp(18px, 2vw, 24px);
+    font-weight: 700;
+  }
+
+  button {
+    font-size: clamp(12px, 1.8vw, 14px);
+  }
+}
+
+/* LISTA */
+.resultado-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* TARJETA */
+.resultado-card {
+  border-radius: 12px;
+  padding: 6px;
+  transition: transform .2s ease, box-shadow .3s ease;
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+  }
+
+  mat-card-title {
+    font-size: clamp(15px, 2vw, 18px);
+    color: #000000;
+    font-weight: 600;
+  }
+
+  mat-card-content {
+    font-size: clamp(13px, 1.6vw, 15px);
+    line-height: 1.5;
+
+    p {
+      margin: 5px 0;
+    }
+
+    strong {
+      color: #000000;
+    }
+  }
+
+  mat-card-actions {
+    display: flex;
+    justify-content: flex-end;
+    padding-right: 8px;
+
+    button mat-icon {
+      font-size: 20px;
+    }
+  }
+}
+
+/* MENSAJE SIN DATOS */
+.no-data {
+  text-align: center;
+  padding: 20px;
+  color: #777;
+  font-style: italic;
+  font-size: clamp(14px, 2vw, 16px);
+}
+
+/* RESPONSIVE */
+@media (max-width: 600px) {
+  .header {
+    flex-direction: column;
+    gap: 10px;
+
+    button {
+      width: 100%;
+    }
+  }
+
+  .resultado-card {
+    padding: 8px;
+  }
+}

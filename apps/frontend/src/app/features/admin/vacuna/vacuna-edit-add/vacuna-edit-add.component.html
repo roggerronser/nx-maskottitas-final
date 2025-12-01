@@ -1,0 +1,133 @@
+<div class="container" *ngIf="datosListos()">
+
+  <h2 mat-dialog-title class="titulo">
+    {{ modo === 'add' ? 'Registrar Nueva Vacuna' : 'Editar Vacuna' }}
+  </h2>
+
+  <div class="scroll-area">
+    <form #vacunaForm="ngForm" class="form-container">
+
+      <!-- CLIENTE -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Cliente</mat-label>
+        <mat-select
+          [(ngModel)]="clienteSeleccionado"
+          name="clienteSeleccionado"
+          (selectionChange)="filtrarPacientesPorCliente($event.value)"
+          required>
+          <mat-option *ngFor="let c of clientes" [value]="c.id_cliente">
+            {{ c.nombres }} {{ c.apellidos }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <!-- PACIENTE -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Paciente</mat-label>
+        <mat-select
+          [(ngModel)]="vacuna.id_paciente"
+          name="id_paciente"
+          (selectionChange)="actualizarAplicacionesPorEspecie()"
+          required>
+          <mat-option *ngFor="let p of pacientesFiltrados" [value]="p.id_paciente">
+            {{ p.paciente }} ({{ p.especie }} - {{ p.raza }})
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <!-- APLICACIÓN -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Aplicación</mat-label>
+        <mat-select
+          [(ngModel)]="vacuna.aplicacion_vacuna"
+          name="aplicacion_vacuna"
+          (selectionChange)="actualizarTiposPorAplicacion()"
+          required>
+          <mat-option *ngFor="let app of aplicacionesDisponibles" [value]="app">
+            {{ app }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <!-- TIPOS -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Tipos de Vacuna</mat-label>
+        <mat-select multiple [(ngModel)]="vacuna.id_tipo_vacuna" name="id_tipo_vacuna">
+
+          <mat-option *ngFor="let tipo of tiposVacuna()" [value]="tipo.id_tipo_vacuna">
+            {{ tipo.tipo_vacuna }}
+            <button mat-icon-button (click)="editarTipo(tipo); $event.stopPropagation()">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button color="warn" (click)="eliminarTipo(tipo); $event.stopPropagation()">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </mat-option>
+
+          <mat-option class="nuevo" (click)="abrirAgregarNuevoTipo()">
+            ➕ Crear nuevo tipo
+          </mat-option>
+
+        </mat-select>
+      </mat-form-field>
+
+      <!-- SIGNOS CLÍNICOS -->
+      <div class="grid-2">
+        <mat-form-field appearance="outline">
+          <mat-label>Temperatura</mat-label>
+          <input matInput [(ngModel)]="vacuna.temperatura_vacuna" name="temperatura_vacuna" required>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>FC</mat-label>
+          <input matInput [(ngModel)]="vacuna.fc_vacuna" name="fc_vacuna" required>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>FR</mat-label>
+          <input matInput [(ngModel)]="vacuna.fr_vacuna" name="fr_vacuna" required>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Mucosa</mat-label>
+          <input matInput [(ngModel)]="vacuna.mucosa_vacuna" name="mucosa_vacuna" required>
+        </mat-form-field>
+      </div>
+
+      <!-- FECHA VACUNA -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Fecha Vacuna</mat-label>
+        <input
+          matInput
+          [matDatepicker]="picker1"
+          [(ngModel)]="vacuna.fecha_vacuna"
+          name="fecha_vacuna"
+          (dateChange)="recalcularProxima()"
+          required>
+        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+        <mat-datepicker #picker1></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Próxima Vacuna</mat-label>
+        <input
+          matInput
+          [matDatepicker]="picker2"
+          [(ngModel)]="vacuna.proxima_vacuna"
+          name="proxima_vacuna"
+          required>
+        <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+        <mat-datepicker #picker2></mat-datepicker>
+      </mat-form-field>
+
+      <!-- ACCIONES -->
+      <div class="actions">
+        <button mat-stroked-button color="warn" (click)="cancelar()">Cancelar</button>
+        <button mat-raised-button color="primary" (click)="guardarVacuna()" [disabled]="!vacunaForm.valid">
+          {{ modo === 'add' ? 'Guardar' : 'Actualizar' }}
+        </button>
+      </div>
+
+    </form>
+  </div>
+</div>

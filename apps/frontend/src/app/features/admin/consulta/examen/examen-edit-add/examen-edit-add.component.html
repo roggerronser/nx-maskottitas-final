@@ -1,0 +1,81 @@
+<h2 mat-dialog-title>{{ titulo }}</h2>
+
+<form [formGroup]="form" class="formulario-examen">
+
+  <mat-form-field appearance="outline">
+    <mat-label>Tipo de examen</mat-label>
+    <mat-select formControlName="tipo_examen">
+      <mat-option value="laboratorio">Laboratorio</mat-option>
+      <mat-option value="auxiliar">Auxiliar</mat-option>
+      <mat-option value="ecografía">Ecografía</mat-option>
+      <mat-option value="otros">Otros</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Diagnóstico Presuntivo</mat-label>
+    <input matInput formControlName="diagnt_presuntivo">
+  </mat-form-field>
+
+
+  <!-- ============================ -->
+  <!-- PDFs EXISTENTES (BD)         -->
+  <!-- ============================ -->
+  <div class="pdf-section">
+    <label>PFDs existentes:</label>
+
+    <ul *ngIf="pdfsExistentes.length > 0; else noExistentes">
+      <li *ngFor="let pdf of pdfsExistentes">
+        {{ pdf.pdf }}
+
+        <button
+          mat-icon-button
+          color="warn"
+          (click)="eliminarPdfExistente(pdf)"
+          matTooltip="Eliminar PDF"
+        >
+          <mat-icon>delete</mat-icon>
+        </button>
+      </li>
+    </ul>
+
+    <ng-template #noExistentes>
+      <p>No hay PDFs guardados.</p>
+    </ng-template>
+  </div>
+
+
+  <!-- ============================ -->
+  <!-- PDFs NUEVOS (LOCAL)          -->
+  <!-- ============================ -->
+  <div class="pdf-section">
+    <label>Agregar nuevos PDF:</label>
+
+    <input type="file" multiple accept="application/pdf"
+           (change)="seleccionarArchivos($event)">
+
+    <ul *ngIf="archivosNuevos.length > 0">
+      <li *ngFor="let f of archivosNuevos">
+        {{ f.name }}
+
+        <button
+          mat-icon-button
+          color="warn"
+          (click)="eliminarPdfNuevo(f.name)"
+        >
+          <mat-icon>close</mat-icon>
+        </button>
+      </li>
+    </ul>
+  </div>
+
+
+  <!-- ACCIONES -->
+  <div class="acciones">
+    <button mat-stroked-button color="warn" type="button" (click)="cancelar()">Cancelar</button>
+    <button mat-flat-button color="primary" type="button" (click)="guardar()">
+      {{ data.examen ? 'Guardar Cambios' : 'Agregar Examen' }}
+    </button>
+  </div>
+
+</form>

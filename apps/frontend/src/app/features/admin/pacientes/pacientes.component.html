@@ -1,0 +1,105 @@
+<div class="contenedor">
+  <!-- 🔍 Barra de búsqueda + botón -->
+  <div class="barra-acciones">
+    <mat-form-field appearance="outline" class="buscador">
+      <mat-icon matPrefix>search</mat-icon>
+      <input matInput placeholder="Buscar paciente..." [(ngModel)]="filtro" />
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" (click)="abrirFormulario()">
+      <mat-icon>add</mat-icon>
+      <span class="btn-texto">Nuevo</span>
+    </button>
+  </div>
+
+  <!-- 🧾 Tabla de pacientes (vista desktop/tablet) -->
+  <div class="tabla-responsive">
+    <table
+      mat-table
+      [dataSource]="pacientesFiltrados"
+      class="tabla"
+      *ngIf="pacientesFiltrados.length > 0; else sinDatos"
+    >
+      <ng-container matColumnDef="id_paciente">
+        <th mat-header-cell *matHeaderCellDef>ID</th>
+        <td mat-cell *matCellDef="let element">{{ element.id_paciente }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="paciente">
+        <th mat-header-cell *matHeaderCellDef>Paciente</th>
+        <td mat-cell *matCellDef="let element">{{ element.paciente }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="especie">
+        <th mat-header-cell *matHeaderCellDef>Especie</th>
+        <td mat-cell *matCellDef="let element">{{ element.especie }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="raza">
+        <th mat-header-cell *matHeaderCellDef>Raza</th>
+        <td mat-cell *matCellDef="let element">{{ element.raza }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="sexo">
+        <th mat-header-cell *matHeaderCellDef>Sexo</th>
+        <td mat-cell *matCellDef="let element">{{ element.sexo }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="cliente">
+        <th mat-header-cell *matHeaderCellDef>Cliente</th>
+        <td mat-cell *matCellDef="let element">
+          {{ getNombreCliente(element.id_cliente) }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="opciones">
+        <th mat-header-cell *matHeaderCellDef>Opciones</th>
+        <td mat-cell *matCellDef="let element" class="acciones">
+          <button mat-icon-button color="primary" (click)="pacienteSeleccionado.emit(element)">
+            <mat-icon>list</mat-icon>
+          </button>
+          <button mat-icon-button color="accent" (click)="abrirFormulario(element)">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button color="warn" (click)="eliminarPaciente(element.id_paciente)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+
+    <!-- 📱 Vista tipo tarjeta para móviles -->
+    <div class="cards" *ngIf="pacientesFiltrados.length > 0">
+      <mat-card *ngFor="let element of pacientesFiltrados" class="card-item">
+        <mat-card-title>{{ element.paciente }}</mat-card-title>
+        <mat-card-subtitle>{{ element.especie }} - {{ element.raza }}</mat-card-subtitle>
+        <mat-card-content>
+          <p><strong>Sexo:</strong> {{ element.sexo }}</p>
+          <p><strong>Cliente:</strong> {{ getNombreCliente(element.id_cliente) }}</p>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-icon-button color="primary" (click)="pacienteSeleccionado.emit(element)">
+            <mat-icon>list</mat-icon>
+          </button>
+          <button mat-icon-button color="accent" (click)="abrirFormulario(element)">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button color="warn" (click)="eliminarPaciente(element.id_paciente)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </div>
+
+  <!-- Mensaje si no hay datos -->
+  <ng-template #sinDatos>
+    <div class="sin-datos">
+      <mat-icon>info</mat-icon>
+      <p>No se encontraron pacientes</p>
+    </div>
+  </ng-template>
+</div>

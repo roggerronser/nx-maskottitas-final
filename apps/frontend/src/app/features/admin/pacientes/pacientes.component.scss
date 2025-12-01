@@ -1,0 +1,94 @@
+:host {
+  display: block;
+  padding: 1rem;
+}
+
+.barra-acciones {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.buscador {
+  flex: 1;
+  min-width: 200px;
+}
+
+.btn-texto {
+  display: inline-block;
+  margin-left: 0.3rem;
+}
+
+.tabla-responsive {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.tabla {
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 8px;
+  font-size: 0.9rem;
+}
+
+th, td {
+  white-space: nowrap;
+}
+
+.acciones button {
+  margin: 0 0.1rem;
+}
+
+/* 📱 Diseño responsivo */
+@media (max-width: 900px) {
+  .tabla {
+    display: none;
+  }
+
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1rem;
+  }
+
+  .card-item {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+  }
+
+  .card-item mat-card-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+  }
+
+  .card-item mat-card-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.3rem;
+  }
+}
+
+/* 💻 Para pantallas grandes */
+@media (min-width: 901px) {
+  .cards {
+    display: none;
+  }
+}
+
+/* 🧩 Mensaje sin datos */
+.sin-datos {
+  text-align: center;
+  color: #777;
+  margin-top: 2rem;
+}
+
+.sin-datos mat-icon {
+  font-size: 40px;
+  display: block;
+  margin: 0 auto 0.5rem;
+}

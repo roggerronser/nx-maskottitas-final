@@ -1,0 +1,97 @@
+<div class="dashboard-container">
+  <!-- Sidebar -->
+  <div
+    class="sidebar"
+    [class.closed]="!sidebarOpen() && !isMobileView()"
+    [class.mobile]="isMobileView()"
+    [class.open]="sidebarOpen() && isMobileView()"
+  >
+    <button mat-icon-button class="toggle-btn" (click)="toggleSidebar()">
+      <mat-icon style="color: antiquewhite;">
+        {{ sidebarOpen() ? 'menu_open' : 'menu' }}
+      </mat-icon>
+    </button>
+
+    <!-- Perfil -->
+    <div class="profile" (click)="setView('perfil')" [class.active]="currentView() === 'perfil'">
+      <img
+        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvnl8QHfv0TCPz0yDtAL8O8x8rLeR_Y5mEJQ&s"
+        alt="Perfil"
+      />
+      @if(sidebarOpen()) {
+        <p>Admin</p>
+      }
+    </div>
+
+    <!-- Navegación -->
+    <nav>
+      <button mat-button (click)="setView('inicio')" [class.active]="currentView() === 'inicio'">
+        <mat-icon>home</mat-icon>
+        @if(sidebarOpen()) { <span>Inicio</span> }
+      </button>
+
+      <button mat-button (click)="setView('clientes')" [class.active]="currentView() === 'clientes'">
+        <mat-icon>people</mat-icon>
+        @if(sidebarOpen()) { <span>Clientes</span> }
+      </button>
+
+      <button mat-button (click)="setView('pacientes')" [class.active]="currentView() === 'pacientes'">
+        <mat-icon>pets</mat-icon>
+        @if(sidebarOpen()) { <span>Pacientes</span> }
+      </button>
+
+      <button mat-button (click)="setView('vacuna')" [class.active]="currentView() === 'vacuna'">
+        <mat-icon>vaccines</mat-icon>
+        @if(sidebarOpen()) { <span>Vacunas</span> }
+      </button>
+
+      <button mat-button (click)="setView('consulta')" [class.active]="currentView() === 'consulta'">
+        <mat-icon>event</mat-icon>
+        @if(sidebarOpen()) { <span>Consultas</span> }
+      </button>
+
+      <button mat-button (click)="setView('prediccion')" [class.active]="currentView() === 'prediccion'">
+        <mat-icon>event</mat-icon>
+        @if(sidebarOpen()) { <span>Predicion</span> }
+      </button>
+
+      <button mat-button color="warn" (click)="logout()">
+        <mat-icon>logout</mat-icon>
+        @if(sidebarOpen()) { <span>Cerrar sesión</span> }
+      </button>
+    </nav>
+  </div>
+
+  <!-- Contenido -->
+  <div class="content">
+    @if(currentView() === 'inicio') { <app-inicio></app-inicio> }
+
+    @if(currentView() === 'clientes') {
+      <app-cliente (clienteSeleccionado)="mostrarDetalleCliente($any($event))"></app-cliente>
+    }
+
+    @if(currentView() === 'perfil') { <app-perfil></app-perfil> }
+
+    @if(currentView() === 'pacientes') {
+      <app-pacientes (pacienteSeleccionado)="mostrarDetalle($any($event))"></app-pacientes>
+    }
+
+    @if(currentView() === 'detalle') {
+      <button mat-button color="primary" (click)="setView('pacientes')">
+        <mat-icon>arrow_back</mat-icon> Volver a pacientes
+      </button>
+      <app-detalle-paciente [paciente]="pacienteActual()"></app-detalle-paciente>
+    }
+
+    @if(currentView() === 'vacuna') { <app-vacuna></app-vacuna> }
+
+    @if(currentView() === 'consulta') { <app-consulta></app-consulta> }
+
+    @if(currentView() === 'prediccion') { <app-prediccion></app-prediccion> }
+
+  </div>
+</div>
+
+<button class="fab-menu" (click)="toggleSidebar()">
+  <mat-icon>menu</mat-icon>
+</button>

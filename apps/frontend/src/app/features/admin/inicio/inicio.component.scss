@@ -1,0 +1,153 @@
+.inicio-container {
+  padding: 24px;
+  text-align: center;
+
+  h1 {
+    color: #7e57c2;
+    font-weight: 700;
+    margin-bottom: 4px;
+    font-size: clamp(1.5rem, 2.5vw, 2rem);
+  }
+
+  p {
+    color: #555;
+    margin-bottom: 20px;
+    font-size: clamp(0.9rem, 2vw, 1.1rem);
+  }
+}
+
+/* Tabs */
+mat-tab-group {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  padding-bottom: 8px;
+  max-width: 1200px;
+  margin: 0 auto;
+
+  ::ng-deep .mat-mdc-tab-labels {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  ::ng-deep .mat-mdc-tab.mdc-tab--active {
+    color: #7e57c2 !important;
+  }
+
+  ::ng-deep .mat-mdc-tab-indicator .mdc-tab-indicator__content--underline {
+    border-color: #ffa726 !important;
+  }
+}
+
+/* Cards responsive grid */
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 330px));
+  gap: 16px;
+  padding: 16px;
+  justify-content: center; /* evita estiramiento feo */
+}
+
+/* Card base */
+.card {
+  border-radius: 12px;
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
+  padding: 4px;
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  mat-card-header {
+    align-items: center;
+    gap: 8px;
+
+    mat-icon {
+      color: #7e57c2;
+      font-size: 28px;
+    }
+
+    mat-card-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #5e35b1;
+    }
+
+    mat-card-subtitle {
+      font-size: 0.95rem;
+      color: #666;
+    }
+  }
+
+  mat-card-content {
+    text-align: left;
+    font-size: 0.95rem;
+
+    p {
+      margin: 4px 0;
+    }
+  }
+}
+
+/* Próximas */
+.proxima-card {
+  border-left: 5px solid #ffa726;
+  background-color: #fff3e0;
+}
+
+/* Vencidas */
+.vencida-card {
+  border-left: 5px solid #ab47bc;
+  background-color: #f3e5f5;
+
+  .estado-vencida {
+    color: #7b1fa2;
+    font-weight: 600;
+  }
+}
+
+/* Texto sin registros */
+.sin-vacunas {
+  color: #8e24aa;
+  font-weight: 500;
+  font-size: 1.1rem;
+  margin: 24px;
+}
+
+/* Móvil */
+@media (max-width: 768px) {
+  .inicio-container {
+    padding: 16px;
+
+    h1 { font-size: 1.5rem; }
+    p { font-size: 1rem; }
+  }
+
+  .cards-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    padding: 8px;
+  }
+
+  .card {
+    mat-card-header {
+      flex-direction: column;
+      text-align: center;
+
+      mat-icon {
+        font-size: 32px;
+        margin-bottom: 4px;
+      }
+    }
+
+    mat-card-content {
+      font-size: 0.9rem;
+    }
+  }
+
+  mat-tab-group {
+    font-size: 0.9rem;
+  }
+}

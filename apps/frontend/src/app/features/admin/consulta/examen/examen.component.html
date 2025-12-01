@@ -1,0 +1,79 @@
+<div class="examen-container">
+  <div class="header">
+    <h2>Exámenes de laboratorio / auxiliar</h2>
+    <button mat-flat-button color="primary" (click)="agregar()">
+      <mat-icon>add</mat-icon>
+      Agregar un examen
+    </button>
+  </div>
+
+  @if (examenes().length > 0) {
+    <div class="examen-list">
+      @for (examen of examenes(); track examen.id_examen) {
+        <mat-card class="examen-card mat-elevation-z3">
+          <mat-card-header>
+            <mat-card-title>{{ examen.tipo_examen | titlecase }}</mat-card-title>
+          </mat-card-header>
+
+          <mat-card-content>
+            <p><strong>Diagnóstico:</strong> {{ examen.diagnt_presuntivo }}</p>
+
+            <div class="pdf-section">
+              <h4><mat-icon>picture_as_pdf</mat-icon> Archivos PDF asociados</h4>
+
+              <div *ngIf="pdfsPorExamen()[examen.id_examen]?.length; else noPdf">
+                <div class="pdf-item" *ngFor="let pdf of pdfsPorExamen()[examen.id_examen]">
+                  <div class="pdf-info">
+                    <mat-icon class="pdf-icon">insert_drive_file</mat-icon>
+                    <span>{{ pdf.pdf }}</span>
+                  </div>
+                  <div class="pdf-actions">
+                    <button mat-mini-fab color="primary" (click)="verPdf(pdf.pdf)" matTooltip="Ver PDF">
+                      <mat-icon>visibility</mat-icon>
+                    </button>
+                    <button mat-mini-fab color="accent" (click)="descargarPdf(pdf.pdf)" matTooltip="Descargar PDF">
+                      <mat-icon>download</mat-icon>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <ng-template #noPdf>
+                <div class="no-pdf">
+                  <mat-icon>info</mat-icon>
+                  No hay archivos PDF asociados.
+                </div>
+              </ng-template>
+
+              <!-- 📎 Subir nuevos PDFs -->
+              <div class="add-pdf">
+                <input
+                  type="file"
+                  (change)="agregarPdf(examen, $event)"
+                  accept="application/pdf"
+                  multiple
+                  hidden
+                  #fileInput
+                />
+                <button mat-stroked-button color="primary" (click)="fileInput.click()">
+                  <mat-icon>upload_file</mat-icon> Agregar PDF
+                </button>
+              </div>
+            </div>
+          </mat-card-content>
+
+          <mat-card-actions align="end">
+            <button mat-icon-button color="warn" (click)="eliminar(examen.id_examen)">
+              <mat-icon>delete</mat-icon>
+            </button>
+            <button mat-icon-button color="accent" (click)="editar(examen)">
+              <mat-icon>edit</mat-icon>
+            </button>
+          </mat-card-actions>
+        </mat-card>
+      }
+    </div>
+  } @else {
+    <p class="no-data">No hay exámenes registrados para esta consulta.</p>
+  }
+</div>

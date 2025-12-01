@@ -1,0 +1,32 @@
+<div class="detalle-container" *ngIf="cliente; else sinCliente">
+
+  <h2 class="titulo">
+    👤 Detalle del Cliente
+  </h2>
+
+  <!-- 🟦 CARD: Información del cliente -->
+  <div class="card">
+    <h3>Información General</h3>
+
+    <div class="grid">
+      <p><strong>ID:</strong> {{ cliente.id_cliente }}</p>
+      <p><strong>Nombre:</strong> {{ cliente.nombres }} {{ cliente.apellidos }}</p>
+      <p><strong>Dirección:</strong> {{ cliente.direccion }}</p>
+      <p><strong>Teléfono:</strong> {{ cliente.telefono }}</p>
+    </div>
+  </div>
+
+  <!-- 🟩 CARD: Pacientes -->
+  <div class="card">
+    <h3>🐾 Pacientes del Cliente</h3>
+
+    <app-pacientes [clienteSeleccionado]="cliente"></app-pacientes>
+  </div>
+
+</div>
+
+<ng-template #sinCliente>
+  <div class="no-selection">
+    <p>Selecciona un cliente para ver sus detalles.</p>
+  </div>
+</ng-template>

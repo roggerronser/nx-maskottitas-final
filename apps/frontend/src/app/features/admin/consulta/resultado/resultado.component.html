@@ -1,0 +1,48 @@
+<div class="resultado-container">
+  <div class="header">
+    <h2>Resultado final</h2>
+    <button mat-flat-button color="primary" (click)="agregar()">
+      <mat-icon>add</mat-icon>
+      Agregar resultado
+    </button>
+  </div>
+
+  @if (resultados().length > 0) {
+    <div class="resultado-list">
+      @for (r of resultados(); track r.id_resultado) {
+
+        <mat-card class="resultado-card mat-elevation-z3">
+          <mat-card-header>
+            <mat-card-title>Diagnóstico definitivo</mat-card-title>
+          </mat-card-header>
+
+          <mat-card-content>
+            <p><strong>Diagnóstico:</strong> {{ r.diagnt_definitivo }}</p>
+            <p><strong>Tratamiento:</strong> {{ r.tratamiento }}</p>
+
+            <!-- ⭐ FECHA FORMATEADA SIN HORAS -->
+            <p>
+              <strong>Próxima cita:</strong>
+              {{ r.prox_cita | date:"dd/MM/yyyy" }}
+            </p>
+
+            <p><strong>Observaciones:</strong> {{ r.observaciones }}</p>
+          </mat-card-content>
+
+          <mat-card-actions align="end">
+            <button mat-icon-button color="accent" (click)="editar(r)">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button color="warn" (click)="eliminar(r.id_resultado)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </mat-card-actions>
+        </mat-card>
+
+      }
+    </div>
+
+  } @else {
+    <p class="no-data">No hay resultados registrados para esta consulta.</p>
+  }
+</div>

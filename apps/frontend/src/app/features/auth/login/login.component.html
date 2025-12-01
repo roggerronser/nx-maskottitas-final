@@ -1,0 +1,41 @@
+<div class="login-container">
+    <mat-card class="login-card">
+      <!-- Logo -->
+      <div class="logo-container">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvnl8QHfv0TCPz0yDtAL8O8x8rLeR_Y5mEJQ&s" alt="Logo" class="logo" />
+      </div>
+  
+      <!-- Título -->
+      <h2 class="title">Clínica veterinaria</h2>
+  
+      <!-- Usuario -->
+      <mat-form-field appearance="fill" class="full-width orange-field">
+        <mat-label>Usuario</mat-label>
+        <input matInput [(ngModel)]="username" placeholder="Nombre de usuario" />
+        @if (error) {
+          <mat-error>Ingrese el usuario correcto</mat-error>
+        }
+      </mat-form-field>
+  
+      <!-- Contraseña -->
+      <mat-form-field appearance="fill" class="full-width orange-field">
+        <mat-label>Contraseña</mat-label>
+        <input matInput type="password" [(ngModel)]="password" placeholder="Ingrese contraseña" />
+        @if (error) {
+          <mat-error>Ingrese la contraseña correcta</mat-error>
+        }
+      </mat-form-field>
+  
+      <!-- Botones -->
+      <div class="button-group">
+        <button mat-raised-button class="btn-cancel" (click)="onCancel()">Cancelar</button>
+        <button mat-raised-button class="btn-login" (click)="onLogin()">Iniciar sesión</button>
+      </div>
+  
+      <!-- Error -->
+      @if (error) {
+        <p class="error">{{ error }}</p>
+      }
+    </mat-card>
+  </div>
+  

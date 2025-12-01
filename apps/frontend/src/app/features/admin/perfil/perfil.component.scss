@@ -1,0 +1,82 @@
+:host {
+  display: block;
+}
+
+.perfil-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 2rem;
+  background: #f9f6fb;
+  min-height: 100vh;
+}
+
+.perfil-card {
+  width: 600px;
+  padding: 2rem;
+  border-radius: 16px;
+  background: #fff; /* Fondo blanco */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.title {
+  text-align: center;
+  margin-bottom: 2rem;
+  font-weight: 600;
+  font-size: 1.5rem;
+  color: #800080; /* morado */
+}
+
+/* === Formulario en grid === */
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.2rem;
+
+  .full-width {
+    grid-column: span 2;
+  }
+}
+
+/* === Inputs personalizados === */
+.custom-field .mat-mdc-text-field-wrapper {
+  background-color: #e6892d !important; /* zapallo */
+  border-radius: 8px !important;
+}
+
+.custom-field.mat-form-field .mat-mdc-form-field-flex {
+  color: #fff !important;
+}
+
+.custom-field.mat-form-field input {
+  color: #fff !important;
+}
+
+.custom-field.mat-form-field mat-label {
+  color: #fff !important;
+}
+
+.custom-field.mat-form-field mat-error {
+  color: #ffdddd !important;
+}
+
+/* === Botón === */
+.button-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+.edit-btn {
+  background-color: #800080 !important; /* morado */
+  color: #fff !important;
+  padding: 0.7rem 2rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: background 0.3s ease;
+
+  &:hover {
+    background-color: #6a006a !important; /* morado más oscuro */
+  }
+}

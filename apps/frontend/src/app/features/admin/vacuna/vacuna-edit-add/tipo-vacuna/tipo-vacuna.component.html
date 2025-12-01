@@ -1,0 +1,15 @@
+<h2>{{ modo === 'add' ? 'Agregar tipo de vacuna' : 'Editar tipo de vacuna' }}</h2>
+
+<div class="formulario-tipo">
+  <mat-form-field appearance="outline">
+    <mat-label>Tipo de vacuna</mat-label>
+    <input matInput [(ngModel)]="nuevoTipoValue" placeholder="Nombre del tipo" />
+  </mat-form-field>
+
+  <div class="acciones">
+    <button mat-raised-button color="primary" (click)="guardar()">
+      {{ modo === 'add' ? 'Agregar' : 'Guardar cambios' }}
+    </button>
+    <button mat-button color="warn" (click)="cancelar()">Cancelar</button>
+  </div>
+</div>

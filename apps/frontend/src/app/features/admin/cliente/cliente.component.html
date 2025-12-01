@@ -1,0 +1,105 @@
+<div class="cliente-container">
+  @if (!clienteSeleccionado()) {
+    <div class="header">
+      <mat-form-field appearance="outline" class="search-box">
+        <mat-icon matPrefix>search</mat-icon>
+        <input
+          matInput
+          [ngModel]="filtro()"
+          (ngModelChange)="filtro.set($event)"
+          placeholder="Buscar cliente..."
+        />
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" (click)="abrirDialogAgregar()">
+        <mat-icon>add</mat-icon>
+        <span class="btn-texto">Nuevo</span>
+      </button>
+    </div>
+
+    <!-- 💻 Tabla en escritorio -->
+    <div class="tabla-responsive">
+      <table mat-table [dataSource]="clientesFiltrados()" class="tabla" *ngIf="clientesFiltrados().length > 0; else sinDatos">
+        <ng-container matColumnDef="id_cliente">
+          <th mat-header-cell *matHeaderCellDef>ID</th>
+          <td mat-cell *matCellDef="let c">{{ c.id_cliente }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="nombres">
+          <th mat-header-cell *matHeaderCellDef>Nombres</th>
+          <td mat-cell *matCellDef="let c">{{ c.nombres }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="apellidos">
+          <th mat-header-cell *matHeaderCellDef>Apellidos</th>
+          <td mat-cell *matCellDef="let c">{{ c.apellidos }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="direccion">
+          <th mat-header-cell *matHeaderCellDef>Dirección</th>
+          <td mat-cell *matCellDef="let c">{{ c.direccion }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="telefono">
+          <th mat-header-cell *matHeaderCellDef>Teléfono</th>
+          <td mat-cell *matCellDef="let c">{{ c.telefono }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="acciones">
+          <th mat-header-cell *matHeaderCellDef>Acciones</th>
+          <td mat-cell *matCellDef="let c" class="acciones">
+            <button mat-icon-button color="primary" (click)="verDetalle(c)">
+              <mat-icon>list</mat-icon>
+            </button>
+            <button mat-icon-button color="accent" (click)="editar(c)">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button color="warn" (click)="eliminar(c.id_cliente)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let fila; columns: displayedColumns"></tr>
+      </table>
+
+      <!-- 📱 Vista tarjetas -->
+      <div class="cards" *ngIf="clientesFiltrados().length > 0">
+        <mat-card *ngFor="let c of clientesFiltrados()" class="card-item">
+          <mat-card-title>{{ c.nombres }} {{ c.apellidos }}</mat-card-title>
+          <mat-card-subtitle>{{ c.direccion }}</mat-card-subtitle>
+          <mat-card-content>
+            <p><strong>Teléfono:</strong> {{ c.telefono }}</p>
+          </mat-card-content>
+          <mat-card-actions>
+            <button mat-icon-button color="primary" (click)="verDetalle(c)">
+              <mat-icon>list</mat-icon>
+            </button>
+            <button mat-icon-button color="accent" (click)="editar(c)">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button color="warn" (click)="eliminar(c.id_cliente!)">
+
+              <mat-icon>delete</mat-icon>
+            </button>
+          </mat-card-actions>
+        </mat-card>
+      </div>
+    </div>
+  } @else {
+    <button mat-raised-button color="accent" (click)="cerrarDetalle()">
+      <mat-icon>arrow_back</mat-icon>
+      Volver
+    </button>
+
+    <app-detalle-cliente [cliente]="clienteSeleccionado()"></app-detalle-cliente>
+  }
+
+  <ng-template #sinDatos>
+    <div class="sin-datos">
+      <mat-icon>info</mat-icon>
+      <p>No se encontraron clientes</p>
+    </div>
+  </ng-template>
+</div>

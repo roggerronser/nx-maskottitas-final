@@ -1,0 +1,205 @@
+<div class="vacuna-container">
+
+  <div class="header">
+    <div class="title-bar">
+      <mat-form-field appearance="outline" class="search-box">
+        <mat-label>Buscar vacuna</mat-label>
+        <input
+          matInput
+          [ngModel]="filtro()"
+          (ngModelChange)="filtro.set($event); vacunasFiltradas()"
+          placeholder="Paciente, especie o aplicación"
+        />
+        <button mat-icon-button matSuffix>
+          <mat-icon>search</mat-icon>
+        </button>
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" (click)="agregarVacuna()">
+        <mat-icon>add</mat-icon> Nueva Vacuna
+      </button>
+    </div>
+  </div>
+
+  <!-- ========================= -->
+  <!-- DESKTOP TABLE -->
+  <!-- ========================= -->
+
+  <div class="tabla-container" *ngIf="!isSmallScreen">
+    <table mat-table [dataSource]="dataSource()" multiTemplateDataRows>
+
+      <!-- Aplicación -->
+      <ng-container matColumnDef="aplicacion">
+        <th mat-header-cell *matHeaderCellDef>Aplicación</th>
+        <td mat-cell *matCellDef="let v">{{ v.aplicacion_vacuna }}</td>
+      </ng-container>
+
+      <!-- Especie -->
+      <ng-container matColumnDef="especie">
+        <th mat-header-cell *matHeaderCellDef>Especie</th>
+        <td mat-cell *matCellDef="let v">{{ getEspecie(v.id_paciente) }}</td>
+      </ng-container>
+
+      <!-- Paciente -->
+      <ng-container matColumnDef="paciente">
+        <th mat-header-cell *matHeaderCellDef>Paciente</th>
+        <td mat-cell *matCellDef="let v">{{ getPacienteNombre(v.id_paciente) }}</td>
+      </ng-container>
+
+      <!-- Cliente -->
+      <ng-container matColumnDef="cliente">
+        <th mat-header-cell *matHeaderCellDef>Cliente</th>
+        <td mat-cell *matCellDef="let v">{{ getClienteInfo(v.id_paciente) }}</td>
+      </ng-container>
+
+      <!-- Fecha aplicación -->
+      <ng-container matColumnDef="fecha_vacuna">
+        <th mat-header-cell *matHeaderCellDef>Fecha Aplicación</th>
+        <td mat-cell *matCellDef="let v">{{ formatDate(v.fecha_vacuna) }}</td>
+      </ng-container>
+
+      <!-- Próxima vacuna -->
+      <ng-container matColumnDef="proxima_vacuna">
+        <th mat-header-cell *matHeaderCellDef>Próxima Vacuna</th>
+        <td mat-cell *matCellDef="let v">{{ formatDate(v.proxima_vacuna) }}</td>
+      </ng-container>
+
+      <!-- Estado -->
+      <ng-container matColumnDef="estado">
+        <th mat-header-cell *matHeaderCellDef>Estado</th>
+        <td mat-cell *matCellDef="let v">
+          <button
+  mat-raised-button
+  [style.background]="getEstadoColor(v)"
+  style="color: white !important;"
+  (click)="cambiarEstado(v)"
+>
+  {{ getEstadoTexto(v) }}
+</button>
+
+        </td>
+      </ng-container>
+
+      <!-- Acciones -->
+      <ng-container matColumnDef="acciones">
+        <th mat-header-cell *matHeaderCellDef>Acciones</th>
+        <td mat-cell *matCellDef="let v">
+          <button mat-icon-button color="accent" (click)="editarVacuna(v)">
+            <mat-icon>edit</mat-icon>
+          </button>
+
+          <button mat-icon-button color="warn" (click)="eliminarVacuna(v.id_vacuna)">
+            <mat-icon>delete</mat-icon>
+          </button>
+
+          <button mat-icon-button (click)="toggleExpand(v)">
+            <mat-icon>
+              {{ isExpanded(v) ? 'expand_less' : 'expand_more' }}
+            </mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <!-- FILA PRINCIPAL -->
+      <tr
+        mat-header-row
+        *matHeaderRowDef="columnas"
+      ></tr>
+
+      <tr
+        mat-row
+        *matRowDef="let row; columns: columnas; trackBy: trackByVacuna"
+      ></tr>
+
+      <!-- ========================= -->
+      <!-- FILA EXPANDIDA (solo 1) -->
+      <!-- ========================= -->
+      <ng-container matColumnDef="expandedDetail">
+        <td mat-cell *matCellDef="let v" [attr.colspan]="columnas.length">
+          <div *ngIf="isExpanded(v)" class="expanded-content">
+
+            <h3>Detalles de la Vacuna</h3>
+
+            <div class="detalle-grid">
+              <p><strong>Temperatura:</strong> {{ v.temperatura_vacuna }}</p>
+              <p><strong>FC:</strong> {{ v.fc_vacuna }}</p>
+              <p><strong>FR:</strong> {{ v.fr_vacuna }}</p>
+              <p><strong>Mucosas:</strong> {{ v.mucosa_vacuna }}</p>
+            </div>
+
+            <p><strong>Tipos:</strong> {{ getTipoVacunaNombre(v.id_tipo_vacuna) }}</p>
+
+          </div>
+        </td>
+      </ng-container>
+
+      <!-- SOLO ESTA FILA EXPANDIDA (no duplicar) -->
+      <tr
+        mat-row
+        *matRowDef="let row; columns: ['expandedDetail']; trackBy: trackByVacuna"
+      ></tr>
+
+    </table>
+  </div>
+
+  <!-- ========================= -->
+  <!-- MOBILE CARDS -->
+  <!-- ========================= -->
+
+  <div class="cards-container" *ngIf="isSmallScreen">
+    <mat-card
+      class="vacuna-card"
+      *ngFor="let v of dataSource(); trackBy: trackByVacuna"
+    >
+      <mat-card-title>{{ v.aplicacion_vacuna }}</mat-card-title>
+
+      <mat-card-subtitle>
+        {{ getPacienteNombre(v.id_paciente) }} ({{ getEspecie(v.id_paciente) }})
+      </mat-card-subtitle>
+
+      <mat-card-content>
+        <p><strong>Cliente:</strong> {{ getClienteInfo(v.id_paciente) }}</p>
+        <p><strong>Fecha Aplicación:</strong> {{ formatDate(v.fecha_vacuna) }}</p>
+        <p><strong>Próxima Vacuna:</strong> {{ formatDate(v.proxima_vacuna) }}</p>
+
+        <div *ngIf="isExpanded(v)" class="expanded-content">
+          <h3>Detalles</h3>
+          <p><strong>Temperatura:</strong> {{ v.temperatura_vacuna }}°C</p>
+          <p><strong>FC:</strong> {{ v.fc_vacuna }}</p>
+          <p><strong>FR:</strong> {{ v.fr_vacuna }}</p>
+          <p><strong>Mucosas:</strong> {{ v.mucosa_vacuna }}</p>
+          <p><strong>Tipos:</strong> {{ getTipoVacunaNombre(v.id_tipo_vacuna) }}</p>
+        </div>
+      </mat-card-content>
+
+      <mat-card-actions>
+
+        <button mat-icon-button color="accent" (click)="editarVacuna(v)">
+          <mat-icon>edit</mat-icon>
+        </button>
+
+        <button mat-icon-button color="warn" (click)="eliminarVacuna(v.id_vacuna)">
+          <mat-icon>delete</mat-icon>
+        </button>
+
+        <button mat-icon-button (click)="toggleExpand(v)">
+          <mat-icon>
+            {{ isExpanded(v) ? 'expand_less' : 'expand_more' }}
+          </mat-icon>
+        </button>
+
+        <button
+  mat-raised-button
+  [style.background]="getEstadoColor(v)"
+  style="color: white !important;"
+  (click)="cambiarEstado(v)"
+>
+  {{ getEstadoTexto(v) }}
+</button>
+
+
+      </mat-card-actions>
+    </mat-card>
+  </div>
+
+</div>

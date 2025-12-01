@@ -1,0 +1,177 @@
+<div class="container">
+  <h2 mat-dialog-title class="titulo">
+    {{ modoEditar ? 'Editar Consulta' : 'Nueva Consulta' }}
+  </h2>
+
+  <div class="scroll-area">
+    <form [formGroup]="form" class="form-container">
+
+      <!-- CLIENTE -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Dueño (Cliente)</mat-label>
+        <mat-select formControlName="id_cliente">
+          <mat-option *ngFor="let c of clientes" [value]="c.id_cliente">
+            {{ c.nombres }} {{ c.apellidos }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <!-- PACIENTE -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Paciente</mat-label>
+        <mat-select formControlName="id_paciente">
+          <mat-option *ngFor="let p of pacientes" [value]="p.id_paciente">
+            {{ p.paciente }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <!-- FECHA -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Fecha de Consulta</mat-label>
+        <input matInput type="date" formControlName="fecha_consulta" />
+      </mat-form-field>
+
+      <!-- ANAMNESIS -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Anamnesis</mat-label>
+        <textarea matInput rows="2" formControlName="anamnesis"></textarea>
+      </mat-form-field>
+
+      <!-- GRID DATOS -->
+      <div class="grid-2">
+
+        <mat-form-field appearance="outline">
+          <mat-label>Característica</mat-label>
+          <input matInput formControlName="caracteristica" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Edad (años)</mat-label>
+          <input matInput type="number" formControlName="edad" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Temperatura</mat-label>
+          <input matInput type="number" formControlName="temperatura" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>FC</mat-label>
+          <input matInput type="number" formControlName="fc" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>FR</mat-label>
+          <input matInput type="number" formControlName="fr" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Hidratación</mat-label>
+          <input matInput formControlName="hidratacion" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Mucosas</mat-label>
+          <input matInput formControlName="mucosas" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Tiempo Relleno Capilar</mat-label>
+          <input matInput formControlName="tiempo_relleno_capilar" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>SpO2</mat-label>
+          <input matInput type="number" formControlName="spo2" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Glucosa</mat-label>
+          <input matInput type="number" formControlName="glucosa" />
+        </mat-form-field>
+
+      </div>
+
+      <!-- PRESIÓN -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Presión Arterial</mat-label>
+        <input matInput placeholder="120/80" formControlName="presion_arterial" />
+      </mat-form-field>
+
+      <!-- OTROS -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Otros</mat-label>
+        <textarea matInput rows="2" formControlName="otros"></textarea>
+      </mat-form-field>
+
+      <!-- SÍNTOMAS -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Síntomas / Signos</mat-label>
+
+        <mat-select formControlName="id_sintoma" multiple>
+
+          <mat-option
+            *ngFor="let s of sintomas"
+            [value]="s.id_sintoma"
+            matOptionDisableRipple
+          >
+            <div class="sintoma-item" style="display:flex; justify-content:space-between; align-items:center; width:100%;">
+
+              <!-- NOMBRE -->
+              <span>{{ s.sintoma }}</span>
+
+              <!-- BOTONES -->
+              <div style="display:flex; gap:6px;">
+                <button
+                  mat-icon-button
+                  color="primary"
+                  class="edit-btn"
+                  (click)="editarSintoma(s, $event)"
+                >
+                  <mat-icon>edit</mat-icon>
+                </button>
+
+                <button
+                  mat-icon-button
+                  color="warn"
+                  class="delete-btn"
+                  (click)="eliminarSintoma(s, $event)"
+                >
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </div>
+
+            </div>
+          </mat-option>
+
+          <mat-option class="nuevo" (click)="crearSintoma()">
+            ➕ Crear nuevo síntoma
+          </mat-option>
+
+        </mat-select>
+      </mat-form-field>
+
+      <!-- ESTADO -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Estado</mat-label>
+        <mat-select formControlName="estado_consulta">
+          <mat-option [value]="0">Pendiente</mat-option>
+          <mat-option [value]="1">Atendido</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <!-- BOTONES -->
+      <div class="actions">
+        <button mat-stroked-button color="warn" type="button" (click)="cancelar()">
+          Cancelar
+        </button>
+
+        <button mat-raised-button color="primary" type="button" (click)="guardar()">
+          {{ modoEditar ? 'Guardar cambios' : 'Guardar' }}
+        </button>
+      </div>
+
+    </form>
+  </div>
+</div>

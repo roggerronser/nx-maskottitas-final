@@ -1,0 +1,87 @@
+<div class="container">
+  <h2 mat-dialog-title class="titulo">
+    {{ titulo() }}
+  </h2>
+
+  <div class="scroll-area">
+    <form (ngSubmit)="guardar()" #formCliente="ngForm" class="form-container">
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Nombres</mat-label>
+        <input
+          matInput
+          name="nombres"
+          [(ngModel)]="cliente().nombres"
+          (ngModelChange)="actualizarCampo('nombres', $event)"
+          required
+        />
+        <mat-error *ngIf="formCliente.submitted && !cliente().nombres">
+          El nombre es obligatorio
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Apellidos</mat-label>
+        <input
+          matInput
+          name="apellidos"
+          [(ngModel)]="cliente().apellidos"
+          (ngModelChange)="actualizarCampo('apellidos', $event)"
+          required
+        />
+        <mat-error *ngIf="formCliente.submitted && !cliente().apellidos">
+          El apellido es obligatorio
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Dirección</mat-label>
+        <input
+          matInput
+          name="direccion"
+          [(ngModel)]="cliente().direccion"
+          (ngModelChange)="actualizarCampo('direccion', $event)"
+          required
+        />
+        <mat-error *ngIf="formCliente.submitted && !cliente().direccion">
+          La dirección es obligatoria
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Teléfono</mat-label>
+        <input
+          matInput
+          type="number"
+          name="telefono"
+          [(ngModel)]="cliente().telefono"
+          (ngModelChange)="actualizarCampo('telefono', $event)"
+          required
+        />
+        <mat-error *ngIf="formCliente.submitted && !cliente().telefono">
+          El teléfono es obligatorio
+        </mat-error>
+      </mat-form-field>
+
+      <div class="actions">
+        <button
+          mat-stroked-button
+          color="warn"
+          type="button"
+          (click)="cancelar()"
+          class="btn-cancelar"
+        >
+          Cancelar
+        </button>
+        <button
+          mat-raised-button
+          color="primary"
+          type="submit"
+          class="btn-crear"
+        >
+          Guardar
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

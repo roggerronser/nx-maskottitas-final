@@ -1,0 +1,49 @@
+<div class="resultado-dialog-container">
+
+  <h2 mat-dialog-title>
+    {{ modoEdicion ? 'Editar resultado' : 'Agregar nuevo resultado' }}
+  </h2>
+
+  <div mat-dialog-content>
+    <form [formGroup]="form" class="form-container">
+
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Examen asociado</mat-label>
+        <mat-select formControlName="id_examen" required>
+          <mat-option *ngFor="let e of examenes" [value]="e.id_examen">
+            {{ e.tipo_examen | titlecase }} - {{ e.diagnt_presuntivo }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Diagnóstico definitivo</mat-label>
+        <input matInput formControlName="diagnt_definitivo" required />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Tratamiento</mat-label>
+        <input matInput formControlName="tratamiento" required />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Próxima cita</mat-label>
+        <input matInput type="date" formControlName="prox_cita" required />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Observaciones</mat-label>
+        <textarea matInput formControlName="observaciones"></textarea>
+      </mat-form-field>
+
+    </form>
+  </div>
+
+  <div mat-dialog-actions align="end" class="acciones-dialog">
+    <button mat-stroked-button (click)="cancelar()">Cancelar</button>
+    <button mat-flat-button color="primary" (click)="guardar()" [disabled]="form.invalid">
+      {{ modoEdicion ? 'Actualizar' : 'Guardar' }}
+    </button>
+  </div>
+
+</div>

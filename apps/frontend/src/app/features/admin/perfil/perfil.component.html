@@ -1,0 +1,84 @@
+<div class="perfil-container">
+    <mat-card class="perfil-card">
+      <h2 class="title">Datos del administrador</h2>
+  
+      <form [formGroup]="perfilForm" (ngSubmit)="onSubmit()">
+        <div class="form-grid">
+          <!-- Nombre -->
+          <mat-form-field appearance="fill" class="custom-field">
+            <mat-label>Nombre</mat-label>
+            <input matInput formControlName="nombre" />
+            @if (perfilForm.get('nombre')?.hasError('required')) {
+              <mat-error>El nombre es obligatorio</mat-error>
+            }
+          </mat-form-field>
+  
+          <!-- Apellido -->
+          <mat-form-field appearance="fill" class="custom-field">
+            <mat-label>Apellido</mat-label>
+            <input matInput formControlName="apellido" />
+            @if (perfilForm.get('apellido')?.hasError('required')) {
+              <mat-error>El apellido es obligatorio</mat-error>
+            }
+          </mat-form-field>
+  
+          <!-- Teléfono -->
+          <mat-form-field appearance="fill" class="custom-field">
+            <mat-label>Teléfono</mat-label>
+            <input matInput formControlName="telefono" />
+            @if (perfilForm.get('telefono')?.hasError('required')) {
+              <mat-error>El teléfono es obligatorio</mat-error>
+            }
+            @if (perfilForm.get('telefono')?.hasError('pattern')) {
+              <mat-error>Debe ingresar solo números</mat-error>
+            }
+          </mat-form-field>
+  
+          <!-- Nombre de usuario -->
+          <mat-form-field appearance="fill" class="custom-field">
+            <mat-label>Nombre de usuario</mat-label>
+            <input matInput formControlName="username" />
+            @if (perfilForm.get('username')?.hasError('required')) {
+              <mat-error>El usuario es obligatorio</mat-error>
+            }
+          </mat-form-field>
+  
+          <!-- Contraseña -->
+          <!-- Nueva contraseña -->
+          <mat-form-field appearance="fill" class="custom-field full-width">
+            <mat-label>Nueva contraseña</mat-label>
+            <input matInput type="password" formControlName="newPassword" />
+            @if (perfilForm.get('newPassword')?.hasError('required')) {
+              <mat-error>La contraseña es obligatoria</mat-error>
+            }
+          </mat-form-field>
+
+          <!-- Confirmar contraseña -->
+          <mat-form-field appearance="fill" class="custom-field full-width">
+            <mat-label>Confirmar contraseña</mat-label>
+            <input matInput type="password" formControlName="confirmPassword" />
+            @if (perfilForm.get('confirmPassword')?.hasError('required')) {
+              <mat-error>Debe confirmar la contraseña</mat-error>
+            }
+          </mat-form-field>
+
+          <!-- Contraseña anterior -->
+          <mat-form-field appearance="fill" class="custom-field full-width">
+            <mat-label>Ingrese la contraseña anterior</mat-label>
+            <input matInput type="password" formControlName="oldPassword" />
+            @if (perfilForm.get('oldPassword')?.hasError('required')) {
+              <mat-error>Debe ingresar la contraseña actual</mat-error>
+            }
+          </mat-form-field>
+
+        </div>
+  
+        <div class="button-container">
+          <button mat-raised-button color="primary" class="edit-btn">
+            Editar
+          </button>
+        </div>
+      </form>
+    </mat-card>
+  </div>
+  

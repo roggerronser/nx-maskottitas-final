@@ -1,0 +1,55 @@
+<div class="prediccion-container">
+  <mat-card class="prediccion-card">
+    <mat-card-title>
+      <mat-icon>psychology</mat-icon>
+      &nbsp; Predicción de diagnóstico por síntomas
+    </mat-card-title>
+
+    <mat-card-content>
+      <mat-form-field appearance="outline" class="sintoma-select">
+        <mat-label>Seleccione los síntomas</mat-label>
+        <mat-select multiple [(ngModel)]="seleccionados">
+          <mat-option *ngFor="let s of sintomas" [value]="s.id_sintoma">
+            {{ s.sintoma }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <button
+        mat-raised-button
+        color="primary"
+        class="predict-button"
+        (click)="predecir()"
+        [disabled]="!seleccionados.length || cargando"
+      >
+        <mat-icon>play_arrow</mat-icon>
+        {{ cargando ? 'Calculando...' : 'Predecir enfermedad' }}
+      </button>
+
+      <p *ngIf="error" class="error-msg">
+        <mat-icon>error</mat-icon> {{ error }}
+      </p>
+
+      <div *ngIf="resultadoPrincipal" class="resultado">
+        <h3>Resultado más probable</h3>
+        <p class="principal">
+          <mat-icon>healing</mat-icon>
+          {{ resultadoPrincipal }}
+        </p>
+
+        <mat-divider></mat-divider>
+
+        <h4>Otros posibles diagnósticos</h4>
+        <ul>
+          <li *ngFor="let alt of alternativos">
+            <mat-icon>info</mat-icon>
+            {{ alt.diagnostico }} —
+            <span class="prob">
+              {{ alt.probabilidad * 100 | number: '1.0-2' }} %
+            </span>
+          </li>
+        </ul>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

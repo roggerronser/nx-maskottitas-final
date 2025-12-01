@@ -1,0 +1,8 @@
+<h2 mat-dialog-title>Confirmación</h2>
+<div mat-dialog-content>
+  <p>{{ data.mensaje }}</p>
+</div>
+<div mat-dialog-actions align="end">
+  <button mat-raised-button (click)="cancelar()" class="btn-cancelar">Cancelar</button>
+  <button mat-raised-button (click)="confirmar()" class="btn-crear">Realizar acción</button>
+</div>
