@@ -5,12 +5,14 @@ WORKDIR /app
 COPY package*.json ./
 COPY nx.json ./
 COPY tsconfig.base.json ./
-COPY jest.config.ts ./
 
+# Copiar backend completo
 COPY apps/backend ./apps/backend
+
+# Copiar prisma (ahora sí, Railway lo encontrará)
 COPY apps/backend/prisma ./apps/backend/prisma
 
-RUN npm install
+RUN npm install --legacy-peer-deps
 
 RUN npx prisma generate --schema=apps/backend/prisma/schema.prisma
 
