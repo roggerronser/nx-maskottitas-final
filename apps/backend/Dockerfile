@@ -9,7 +9,6 @@ COPY jest.config.ts ./
 
 COPY apps/backend ./apps/backend
 COPY apps/backend/prisma ./apps/backend/prisma
-COPY libs ./libs
 
 RUN npm install
 
