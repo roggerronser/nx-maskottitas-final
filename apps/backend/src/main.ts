@@ -18,7 +18,7 @@ async function bootstrap() {
   app.setGlobalPrefix(globalPrefix);
 
   const port = process.env.PORT || 3000;
-  await app.listen(port);
+  await app.listen(port, '0.0.0.0');
 
   Logger.log(`Backend running: http://localhost:${port}/${globalPrefix}`);
   Logger.log(`PDF route:       http://localhost:${port}/pdf/NOMBRE.pdf`);
