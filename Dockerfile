@@ -13,6 +13,8 @@ RUN npm install --legacy-peer-deps
 
 RUN npx prisma generate --schema=apps/backend/prisma/schema.prisma
 
+RUN npx prisma migrate deploy --schema=apps/backend/prisma/schema.prisma   # ← AQUÍ
+
 RUN npx nx build backend
 
 WORKDIR /app/dist/apps/backend
