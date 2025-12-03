@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from 'apps/frontend/src/environments/environment';
 
 export interface Cliente {
   id_cliente?: number;
@@ -10,11 +11,9 @@ export interface Cliente {
   telefono: number;
 }
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({ providedIn: 'root' })
 export class ClienteService {
-  private apiUrl = 'http://localhost:3000/api/cliente'; // URL del backend
+  private apiUrl = `${environment.apiUrl}/cliente`;
 
   constructor(private http: HttpClient) {}
 
@@ -27,7 +26,7 @@ export class ClienteService {
   }
 
   add(data: Cliente): Observable<Cliente> {
-    const { id_cliente, ...sinId } = data; 
+    const { id_cliente, ...sinId } = data;
     return this.http.post<Cliente>(this.apiUrl, sinId);
   }
 

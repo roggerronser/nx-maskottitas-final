@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from 'apps/frontend/src/environments/environment';
 
 export interface Examen {
   id_examen: number;
@@ -11,7 +12,8 @@ export interface Examen {
 
 @Injectable({ providedIn: 'root' })
 export class ExamenService {
-  private api = 'http://localhost:3000/api/examen';
+
+  private api = `${environment.apiUrl}/examen`;
 
   constructor(private http: HttpClient) {}
 
@@ -39,6 +41,7 @@ export class ExamenService {
     return this.http.delete<Examen>(`${this.api}/${id}`);
   }
 
+  // este método ya era dummy, así se mantiene
   upload(file: File): Observable<{ filename: string }> {
     return new Observable(obs => {
       obs.next({ filename: file.name });

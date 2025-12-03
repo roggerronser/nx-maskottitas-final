@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from 'apps/frontend/src/environments/environment';
 
 export interface Consulta {
   id_consulta?: number;
-
   edad: number;
   anamnesis: string;
   caracteristica: string;
@@ -20,15 +20,13 @@ export interface Consulta {
   otros: string;
   fecha_consulta: string;
   estado_consulta: number;
-
   id_sintoma: number[];
   id_paciente: number;
 }
 
 @Injectable({ providedIn: 'root' })
 export class ConsultaService {
-
-  private api = 'http://localhost:3000/api/consulta';
+  private api = `${environment.apiUrl}/consulta`;
 
   constructor(private http: HttpClient) {}
 
@@ -45,10 +43,6 @@ export class ConsultaService {
   }
 
   update(id: number, data: any): Observable<Consulta> {
-    return this.http.put<Consulta>(`${this.api}/${id}`, data);
-  }
-
-  updatePartial(id: number, data: any): Observable<Consulta> {
     return this.http.put<Consulta>(`${this.api}/${id}`, data);
   }
 

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, map } from 'rxjs';
+import { environment } from 'apps/frontend/src/environments/environment';
 
 export interface Vacuna {
   id_vacuna: number;
@@ -18,7 +19,7 @@ export interface Vacuna {
 
 @Injectable({ providedIn: 'root' })
 export class VacunaService {
-  private api = 'http://localhost:3000/api/vacuna';
+  private api = `${environment.apiUrl}/vacuna`;
 
   constructor(private http: HttpClient) {}
 
@@ -33,15 +34,10 @@ export class VacunaService {
       fecha_vacuna: v.fecha_vacuna,
       proxima_vacuna: v.proxima_vacuna,
       estado_vacuna: v.estado_vacuna,
-  
       id_tipo_vacuna: v.tipos_vacuna?.map((t: any) => t.id_tipo_vacuna) ?? [],
-  
-      // 🔥 ESTA ES LA CORRECCIÓN
       id_paciente: Number(v.id_paciente ?? v.paciente?.id_paciente)
     };
   }
-  
-  
 
   getAll(): Observable<Vacuna[]> {
     return this.http.get<any[]>(this.api).pipe(

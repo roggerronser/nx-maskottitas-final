@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from 'apps/frontend/src/environments/environment';
 
 export interface Sintoma {
   id_sintoma: number;
@@ -9,8 +10,8 @@ export interface Sintoma {
 
 @Injectable({ providedIn: 'root' })
 export class SintomaService {
-  
-  private api = 'http://localhost:3000/api/sintoma';
+
+  private api = `${environment.apiUrl}/sintoma`;
 
   constructor(private http: HttpClient) {}
 

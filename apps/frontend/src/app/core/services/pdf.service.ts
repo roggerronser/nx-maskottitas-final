@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from 'apps/frontend/src/environments/environment';
 
 export interface Pdf {
   id_pdf: number;
@@ -11,7 +12,7 @@ export interface Pdf {
 @Injectable({ providedIn: 'root' })
 export class PdfService {
 
-  private api = 'http://localhost:3000/api/pdf';  // ✔ RUTA CORRECTA
+  private api = `${environment.apiUrl}/pdf`;
 
   constructor(private http: HttpClient) {}
 
@@ -25,7 +26,7 @@ export class PdfService {
   }
 
   addPdf(pdf: string, id_examen: number): Observable<Pdf> {
-    return this.http.post<Pdf>(`${this.api}`, { pdf, id_examen });
+    return this.http.post<Pdf>(this.api, { pdf, id_examen });
   }
 
   getPdfsByExam(id_examen: number): Observable<Pdf[]> {
@@ -36,4 +37,3 @@ export class PdfService {
     return this.http.delete(`${this.api}/${id_pdf}`);
   }
 }
-
