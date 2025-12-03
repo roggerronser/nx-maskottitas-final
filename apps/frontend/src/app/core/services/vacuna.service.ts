@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, map } from 'rxjs';
-import { environment } from 'apps/frontend/src/environments/environment';
+import { API_BASE_URL } from '../config/api.config';
 
 export interface Vacuna {
   id_vacuna: number;
@@ -19,7 +19,7 @@ export interface Vacuna {
 
 @Injectable({ providedIn: 'root' })
 export class VacunaService {
-  private api = `${environment.apiUrl}/vacuna`;
+  private api = `${API_BASE_URL}/vacuna`;
 
   constructor(private http: HttpClient) {}
 

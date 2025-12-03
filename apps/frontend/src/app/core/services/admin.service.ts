@@ -1,8 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { environment } from 'apps/frontend/src/environments/environment';
-
+import { API_BASE_URL } from '../config/api.config';
 
 export interface Admin {
   id_admin: number;
@@ -16,14 +15,14 @@ export interface Admin {
 @Injectable({ providedIn: 'root' })
 export class AdminService {
   private http = inject(HttpClient);
-  private baseUrl = `${environment.apiUrl}/admin`;
+  private baseUrl = `${API_BASE_URL}/admin`;
 
   getAdmins(): Observable<Admin[]> {
     return this.http.get<Admin[]>(this.baseUrl);
   }
 
   getAdminByUsername(username: string): Observable<Admin | null> {
-    return this.http.get<Admin | null>(`${this.baseUrl}/by-username/${username}`);
+    return this.http.get<Admin | null>(`${this.baseUrl}/by-username/${encodeURIComponent(username)}`);
   }
 
   addAdmin(data: Omit<Admin, 'id_admin'>): Observable<Admin> {

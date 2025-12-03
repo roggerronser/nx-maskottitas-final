@@ -147,7 +147,7 @@ export class ConsultaComponent implements OnInit, OnChanges {
         id_sintoma: c.id_sintoma,
       };
 
-      this.consultaService.updatePartial(c.id_consulta!, body).subscribe((actualizada) => {
+      this.consultaService.update(c.id_consulta!, body).subscribe((actualizada) => {
         const lista = [...this.consultas()];
 
         const index = lista.findIndex(x => x.id_consulta === actualizada.id_consulta);
